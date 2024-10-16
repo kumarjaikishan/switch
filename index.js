@@ -5,15 +5,14 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
     cors: {
-        // origin: "http://localhost:5173",
-        origin: "*",
+        origin: "http://localhost:5173",
         methods: ["GET", "POST"],
         credentials: true
     }
 });
 
 
-const port = process.env.PORT || 5005;
+const port = process.env.PORT || 5000;
 const cors = require('cors');
 const switche = require('./modals/switch');
 const path = require('path');
@@ -43,17 +42,24 @@ app.get('/switch', async (req, res) => {
 
 
 // Socket.IO connection
-io.on('connection', (socket) => {
-    console.log('A user connected',socket.id);
+io.on('connection', async (socket) => {
+    console.log('A user connected', socket.id);
 
-    socket.on('socketstatus',async(stats)=>{
+    // Fetch the current switch status from the database
+    const query = await switche.findOne({ _id: '65d6e438d8371891f09f8b96' });
+
+    // Emit the current status to the newly connected client
+    socket.emit('initialSwitchStatus', { status: query.status });
+
+    socket.on('socketstatus', async (stats) => {
         console.log('new status from front', stats);
-        const query = await switche.findByIdAndUpdate({ _id: '65d6e438d8371891f09f8b96' }, { status: stats });
-      
+        await switche.findByIdAndUpdate({ _id: '65d6e438d8371891f09f8b96' }, { status: stats });
+
         // Emitting a socket event after a switch POST request
         io.emit('switchStatusChanged', { status: stats });
-      })
+    });
 });
+
 
 server.listen(port, () => {
     console.log(`server listening at ${port}`);
