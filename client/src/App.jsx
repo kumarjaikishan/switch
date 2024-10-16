@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch';
 import './App.css'
 import { styled } from '@mui/material/styles';
 
-const ENDPOINT = 'http://localhost:5005';
+const ENDPOINT = '/';
 
 function App() {
   const [switchStatus, setSwitchStatus] = useState(false);
