@@ -47,8 +47,20 @@ body {
     }
 }
 
+#status {
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 45px;
+
+    i {
+        margin: 0 5px;
+    }
+}
+
 #led {
-    margin-top: 60px;
+    margin-top: 50px;
     color: #00ffe7;
     color: grey;
 }
