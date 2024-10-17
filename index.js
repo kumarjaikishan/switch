@@ -50,7 +50,7 @@ const getSwitchStatus = async () => {
 // Socket.IO connection handling
 io.on('connection', async (socket) => {
   connectedClients++; // Increment client count when a new client connects
-  console.log(`A user connected: ${socket.id}. Connected clients: ${connectedClients}`);
+//   console.log(`A user connected: ${socket.id}. Connected clients: ${connectedClients}`);
 
   // Emit the number of connected clients to all clients
   io.emit('clientsCount', { count: connectedClients });
@@ -76,7 +76,7 @@ io.on('connection', async (socket) => {
   // Handle client disconnection
   socket.on('disconnect', () => {
     connectedClients--; // Decrement client count when a client disconnects
-    console.log(`A user disconnected: ${socket.id}. Connected clients: ${connectedClients}`);
+    // console.log(`A user disconnected: ${socket.id}. Connected clients: ${connectedClients}`);
     
     // Emit the updated number of connected clients to all clients
     io.emit('clientsCount', { count: connectedClients });
