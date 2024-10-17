@@ -53,6 +53,7 @@ body {
     justify-content: center;
     align-items: center;
     margin-bottom: 45px;
+    color: rgb(165, 164, 164);
 
     i {
         margin: 0 5px;
