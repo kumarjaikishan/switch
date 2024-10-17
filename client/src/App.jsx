@@ -6,15 +6,16 @@ import Switch from '@mui/material/Switch';
 import './App.css'
 import { styled } from '@mui/material/styles';
 
-const endoint = '/api';
+const endpoint = 'https://switch.battlefiesta.in/api'; // Use the full URL here
+
 
 function App() {
   const [switchStatus, setSwitchStatus] = useState(false);
   const [socket, setSocket] = useState(null); // Create state for socket
 
   useEffect(() => {
-    console.log(endoint)
-    const socketIo = socketIOClient(endoint); // Establish socket connection
+    console.log(endpoint)
+    const socketIo = socketIOClient(endpoint); // Establish socket connection
     setSocket(socketIo); // Save socket connection in state
 
     socketIo.on('initialSwitchStatus', ({ status }) => {

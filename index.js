@@ -5,7 +5,7 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
     cors: {
-        origin: "*",
+        origin: "https://switch.battlefiesta.in",
         methods: ["GET", "POST"],
         credentials: true
     }
