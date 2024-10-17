@@ -1,66 +1,78 @@
 const express = require('express');
 const http = require('http');
-const app = express();
 const socketIo = require('socket.io');
+const cors = require('cors');
+const path = require('path');
+const switche = require('./modals/switch'); // Assuming this is your mongoose model
+require('./conn/conn');  // Database connection module
+
+const app = express();
 const server = http.createServer(app);
-const io = require('socket.io')(server, {
-    cors: {
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST"],
-        credentials: true
-    }
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
 });
 
-
+// Constants
 const port = process.env.PORT || 5005;
-const cors = require('cors');
-const switche = require('./modals/switch');
-const path = require('path');
+let switchStatusCache = null; // Cache the switch status in memory
 
+
+// Middleware
 app.use(express.json());
-require('./conn/conn');
 app.use(cors());
 
+// Serve static files
+app.use(express.static(path.resolve(__dirname, 'client', 'dist')));
+
+// Route to serve the frontend
 app.get('/', (req, res) => {
-    app.use(express.static(path.resolve(__dirname, 'client', 'dist')));
-    res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
+  res.sendFile(path.resolve(__dirname, 'client', 'dist', 'index.html'));
 });
 
-// app.get('/switch', async (req, res) => {
-//     try {
-//         const query = await switche.findOne({ _id: '65d6e438d8371891f09f8b96' });
-//         res.status(200).json({
-//             msg: true,
-//             data: query
-//         });
-//     } catch (error) {
-//         res.status(500).json({
-//             msg: error,
-//         });
-//     }
-// });
+// Fetch switch status from the database and cache it
+const getSwitchStatus = async () => {
+  try {
+    if (switchStatusCache === null) {
+      const query = await switche.findOne({ _id: '65d6e438d8371891f09f8b96' });
+      switchStatusCache = query.status;
+    }
+    return switchStatusCache;
+  } catch (error) {
+    console.error('Error fetching switch status:', error);
+    throw error;
+  }
+};
 
-
-// Socket.IO connection
+// Socket.IO connection handling
 io.on('connection', async (socket) => {
-    console.log('A user connected', socket.id);
+  console.log('A user connected', socket.id);
 
-    // Fetch the current switch status from the database
-    const query = await switche.findOne({ _id: '65d6e438d8371891f09f8b96' });
+  try {
+    // Emit the cached or fetched switch status to the newly connected client
+    const status = await getSwitchStatus();
+    socket.emit('initialSwitchStatus', { status });
 
-    // Emit the current status to the newly connected client
-    socket.emit('initialSwitchStatus', { status: query.status });
-
+    // Handle status updates from the client
     socket.on('socketstatus', async (stats) => {
-        console.log('new status from front', stats);
-        await switche.findByIdAndUpdate({ _id: '65d6e438d8371891f09f8b96' }, { status: stats });
+      console.log('New status from front', stats);
 
-        // Emitting a socket event after a switch POST request
-        io.emit('switchStatusChanged', { status: stats });
+      // Update the database and cache
+      await switche.findByIdAndUpdate('65d6e438d8371891f09f8b96', { status: stats });
+      switchStatusCache = stats; // Update the cached status
+
+      // Broadcast the updated status to all clients
+      io.emit('switchStatusChanged', { status: stats });
     });
+  } catch (error) {
+    console.error('Socket error:', error);
+  }
 });
 
-
+// Start the server
 server.listen(port, () => {
-    console.log(`server listening at ${port}`);
+  console.log(`Server listening at ${port}`);
 });
