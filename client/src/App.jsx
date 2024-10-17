@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch';
 import './App.css'
 import { styled } from '@mui/material/styles';
 
-const endpoint = 'https://switch.battlefiesta.in/api'; // Use the full URL here
+const endpoint = '/'; // Use the full URL here
 
 
 function App() {

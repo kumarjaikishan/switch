@@ -5,7 +5,7 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
     cors: {
-        origin: "https://switch.battlefiesta.in",
+        origin: "http://localhost:5173",
         methods: ["GET", "POST"],
         credentials: true
     }
@@ -40,8 +40,9 @@ app.get('/', (req, res) => {
 //     }
 // });
 
+
 // Socket.IO connection
-io.of('/api').on('connection', async (socket) => {
+io.on('connection', async (socket) => {
     console.log('A user connected', socket.id);
 
     // Fetch the current switch status from the database
@@ -50,15 +51,15 @@ io.of('/api').on('connection', async (socket) => {
     // Emit the current status to the newly connected client
     socket.emit('initialSwitchStatus', { status: query.status });
 
-    // Listen for status changes from the client
     socket.on('socketstatus', async (stats) => {
         console.log('new status from front', stats);
         await switche.findByIdAndUpdate({ _id: '65d6e438d8371891f09f8b96' }, { status: stats });
 
-        // Emit the status change to all connected clients
-        io.of('/api').emit('switchStatusChanged', { status: stats });
+        // Emitting a socket event after a switch POST request
+        io.emit('switchStatusChanged', { status: stats });
     });
 });
+
 
 server.listen(port, () => {
     console.log(`server listening at ${port}`);
