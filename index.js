@@ -19,7 +19,7 @@ const io = socketIo(server, {
 // Constants
 const port = process.env.PORT || 5005;
 let switchStatusCache = null; // Cache the switch status in memory
-
+let connectedClients = 0; // Track the number of connected clients
 
 // Middleware
 app.use(express.json());
@@ -49,7 +49,11 @@ const getSwitchStatus = async () => {
 
 // Socket.IO connection handling
 io.on('connection', async (socket) => {
-  console.log('A user connected', socket.id);
+  connectedClients++; // Increment client count when a new client connects
+  console.log(`A user connected: ${socket.id}. Connected clients: ${connectedClients}`);
+
+  // Emit the number of connected clients to all clients
+  io.emit('clientsCount', { count: connectedClients });
 
   try {
     // Emit the cached or fetched switch status to the newly connected client
@@ -58,8 +62,6 @@ io.on('connection', async (socket) => {
 
     // Handle status updates from the client
     socket.on('socketstatus', async (stats) => {
-    //   console.log('New status from front', stats);
-
       // Update the database and cache
       await switche.findByIdAndUpdate('65d6e438d8371891f09f8b96', { status: stats });
       switchStatusCache = stats; // Update the cached status
@@ -70,6 +72,15 @@ io.on('connection', async (socket) => {
   } catch (error) {
     console.error('Socket error:', error);
   }
+
+  // Handle client disconnection
+  socket.on('disconnect', () => {
+    connectedClients--; // Decrement client count when a client disconnects
+    console.log(`A user disconnected: ${socket.id}. Connected clients: ${connectedClients}`);
+    
+    // Emit the updated number of connected clients to all clients
+    io.emit('clientsCount', { count: connectedClients });
+  });
 });
 
 // Start the server

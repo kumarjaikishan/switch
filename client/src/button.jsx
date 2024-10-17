@@ -13,7 +13,7 @@ const Button = ({ isOn, handleSwitchChange }) => {
                     </span>
                 </label>
             </div>
-            <div id="led" > {isOn ? "ON":"OFF"}</div>
+            {/* <div id="led" > {isOn ? "ON":"OFF"}</div> */}
         </>
     );
 };

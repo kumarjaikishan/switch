@@ -9,6 +9,7 @@ function App() {
   const [isOn, setIsOn] = useState(false);
   const [socket, setSocket] = useState(null);
   const [connectionStatus, setConnectionStatus] = useState('disconnected'); // 'disconnected', 'connecting', 'connected'
+  const [connectedClients, setConnectedClients] = useState(0); // State to track the number of connected clients
 
   useEffect(() => {
     setConnectionStatus('connecting'); // When establishing connection
@@ -31,6 +32,11 @@ function App() {
 
     socketIo.on('switchStatusChanged', ({ status }) => {
       setIsOn(status);
+    });
+
+    // Listen for the real-time connected clients count
+    socketIo.on('clientsCount', ({ count }) => {
+      setConnectedClients(count); // Update the state with the connected clients count
     });
 
     return () => {
@@ -64,7 +70,7 @@ function App() {
   return (
     <div>
       <div id='status'>
-       <i>Status : </i> <i
+        <i>Status : </i> <i
           className="fa fa-wifi"
           aria-hidden="true"
           style={{
@@ -72,6 +78,7 @@ function App() {
             fontSize: '2em',
           }}
         ></i>
+        <p style={{marginLeft:'20px'}}>Connected Clients: {connectedClients}</p> {/* Display the number of connected clients */}
       </div>
       <Button isOn={isOn} setIsOn={setIsOn} handleSwitchChange={handleSwitchChange} />
     </div>
