@@ -6,7 +6,7 @@ import Switch from '@mui/material/Switch';
 import './App.css'
 import { styled } from '@mui/material/styles';
 
-const ENDPOINT = '/';
+const ENDPOINT = '/api';
 
 function App() {
   const [switchStatus, setSwitchStatus] = useState(false);
@@ -18,6 +18,7 @@ function App() {
 
     socketIo.on('initialSwitchStatus', ({ status }) => {
       setSwitchStatus(status);
+      console.log('initial status:',status)
     });
     socketIo.on('switchStatusChanged', ({ status }) => {
       setSwitchStatus(status);
