@@ -6,14 +6,15 @@ import Switch from '@mui/material/Switch';
 import './App.css'
 import { styled } from '@mui/material/styles';
 
-const ENDPOINT = '/api';
+const endoint = '/api';
 
 function App() {
   const [switchStatus, setSwitchStatus] = useState(false);
   const [socket, setSocket] = useState(null); // Create state for socket
 
   useEffect(() => {
-    const socketIo = socketIOClient(ENDPOINT); // Establish socket connection
+    console.log(endoint)
+    const socketIo = socketIOClient(endoint); // Establish socket connection
     setSocket(socketIo); // Save socket connection in state
 
     socketIo.on('initialSwitchStatus', ({ status }) => {
