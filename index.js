@@ -58,7 +58,7 @@ io.on('connection', async (socket) => {
 
     // Handle status updates from the client
     socket.on('socketstatus', async (stats) => {
-      console.log('New status from front', stats);
+    //   console.log('New status from front', stats);
 
       // Update the database and cache
       await switche.findByIdAndUpdate('65d6e438d8371891f09f8b96', { status: stats });
