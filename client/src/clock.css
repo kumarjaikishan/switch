@@ -55,7 +55,6 @@
     font-weight: 700;
     line-height: 0;
     perspective: 1000px;
-    /* Added perspective here */
 }
 
 .flip-clock {
@@ -206,7 +205,7 @@
 .digit-left::after,
 .digit-left .card-face {
     border-bottom-right-radius: var(--middleborderradius);
-    /* border-bottom-left-radius: var(--sideborderradius); */
+    border-bottom-left-radius: var(--sideborderradius);
 }
 
 .digit-right,
@@ -214,7 +213,7 @@
 .digit-right .carden,
 .digit-right .card-face {
     border-top-left-radius: var(--middleborderradius);
-    /* border-top-right-radius:  var(--sideborderradius); */
+    border-top-right-radius:  var(--sideborderradius);
 }
 
 .digit-left,
@@ -222,7 +221,7 @@
 .digit-left .carden,
 .digit-left .card-face {
     border-top-right-radius: var(--middleborderradius);
-    /* border-top-left-radius:  var(--sideborderradius); */
+    border-top-left-radius:  var(--sideborderradius);
 }
 
 .digit-right,
@@ -230,7 +229,7 @@
 .digit-right .carden,
 .digit-right .card-face {
     border-bottom-left-radius: var(--middleborderradius);
-    /* border-bottom-right-radius:  var(--sideborderradius); */
+    border-bottom-right-radius:  var(--sideborderradius);
 }
 
 .colon {
@@ -251,5 +250,8 @@
 @media only screen and (max-width: 600px) {
     #app {
         margin-top: 30px;
+    }
+    .flip-clock-container {
+       transform: translateX(-20px);
     }
 }

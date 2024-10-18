@@ -3,7 +3,8 @@ body {
     justify-content: center;
     align-items: center;
     min-width: 100%;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
     background: #0c0c0c;
 }
 
@@ -63,6 +64,10 @@ body {
 
 
 @media only screen and (max-width: 600px) {
+    body {
+        padding-top: 30px;
+        align-items: start;
+    }
 
     .box {
         width: 250px;
