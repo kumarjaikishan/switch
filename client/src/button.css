@@ -10,6 +10,7 @@ body {
 .box {
     position: relative;
     width: 300px;
+    margin: 0 auto;
     height: 300px;
     border-radius: 50%;
 
@@ -60,8 +61,34 @@ body {
     }
 }
 
-#led {
-    margin-top: 50px;
-    color: #00ffe7;
-    color: grey;
+
+@media only screen and (max-width: 600px) {
+
+    .box {
+        width: 250px;
+        height: 250px;
+
+
+        input:checked+span .fa.on {
+            color: #00ffe7;
+            text-shadow: 0 0 7px #00ffe7,
+                0 0 20px #00ffe7;
+            box-shadow: 0 0 0 2px #00ffe7,
+                0 0 35px #00ffe7;
+        }
+
+        span {
+
+            .fa {
+                font-size: 9em;
+                line-height: 270px;
+                box-shadow: 0 20px 20px rgba(0, 0, 0, 0.9),
+                    inset 0 10px 10px rgba(255, 255, 255, 0.3);
+            }
+        }
+    }
+
+    #status {
+        margin-bottom: 15px;
+    }
 }

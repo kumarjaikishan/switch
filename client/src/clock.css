@@ -5,9 +5,10 @@
     -moz-box-sizing: inherit;
     box-sizing: inherit;
 }
-:root{
-    --middleborderradius:8px;
-    --sideborderradius:4px;
+
+:root {
+    --middleborderradius: 8px;
+    --sideborderradius: 4px;
 }
 
 #app {
@@ -53,12 +54,14 @@
     font-size: 50px;
     font-weight: 700;
     line-height: 0;
-    perspective: 1000px; /* Added perspective here */
+    perspective: 1000px;
+    /* Added perspective here */
 }
 
 .flip-clock {
     display: flex;
-    perspective: 1000px; /* Added perspective to the clock itself */
+    perspective: 1000px;
+    /* Added perspective to the clock itself */
 }
 
 .flip-clock-container * {
@@ -72,7 +75,8 @@
     position: relative;
     width: 45px;
     height: 80px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    /* Enhanced shadow for depth */
 }
 
 .digit-left {
@@ -116,12 +120,14 @@
     -webkit-backface-visibility: hidden;
     -moz-backface-visibility: hidden;
     backface-visibility: hidden;
-    border-radius: 4px; /* Ensure it matches with digit */
+    border-radius: 4px;
+    /* Ensure it matches with digit */
 }
 
 .card-face-front {
     align-items: flex-end;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); /* Light shadow for front face */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    /* Light shadow for front face */
 }
 
 .card-face-back {
@@ -129,7 +135,8 @@
     -webkit-transform: rotateX(-180deg);
     -moz-transform: rotateX(-180deg);
     transform: rotateX(-180deg);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15); /* Light shadow for back face */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    /* Light shadow for back face */
 }
 
 .digit::before,
@@ -185,6 +192,7 @@
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
+
 .digit-right,
 .digit-right::before,
 .digit-right::after,
@@ -200,6 +208,7 @@
     border-bottom-right-radius: var(--middleborderradius);
     /* border-bottom-left-radius: var(--sideborderradius); */
 }
+
 .digit-right,
 .digit-right::before,
 .digit-right .carden,
@@ -228,4 +237,10 @@
     color: black;
     margin: 0 6px;
     padding-bottom: 9px;
+}
+
+@media only screen and (max-width: 600px) {
+    #app {
+        margin-top: 30px;
+    }
 }
