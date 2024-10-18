@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './clock.css'; // Ensure this file is in the same directory
 
 const FlipClock = () => {
+  const [amPm, setAmPm] = useState('');
+
   useEffect(() => {
     run();
   }, []);
@@ -48,7 +50,10 @@ const FlipClock = () => {
         m: date.getMinutes(),
         s: date.getSeconds(),
       };
-      
+
+      // Set AM/PM
+      setAmPm(date.getHours() >= 12 ? 'PM' : 'AM');
+
       now.h = String(now.h).padStart(2, '0');
       now.m = String(now.m).padStart(2, '0');
       now.s = String(now.s).padStart(2, '0');
@@ -165,6 +170,9 @@ const FlipClock = () => {
             </div>
           </div>
         </div>
+
+        {/* AM/PM Indicator */}
+        <div className="ampm-indicator">{amPm}</div>
       </div>
     </div>
   );

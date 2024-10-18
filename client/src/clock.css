@@ -238,6 +238,15 @@
     margin: 0 6px;
     padding-bottom: 9px;
 }
+.ampm-indicator {
+    position: absolute;
+    top: 10px; /* Adjust position as needed */
+    right: -40px; /* Adjust position as needed */
+    font-size: 20px; /* Smaller size compared to the clock digits */
+    font-weight: 500; /* Make it a bit lighter */
+    
+}
+
 
 @media only screen and (max-width: 600px) {
     #app {
