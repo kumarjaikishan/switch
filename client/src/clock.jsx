@@ -115,7 +115,7 @@ const FlipClock = () => {
   };
 
   return (
-    <div id="app" className='dark'>
+    <div id="app" className='darke'>
       <div className="flip-clock-container">
         <div className="flip-clock flip-clock-h">
           <div className="digit digit-left">
