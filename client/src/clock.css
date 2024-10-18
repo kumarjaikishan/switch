@@ -244,7 +244,7 @@
     right: -40px; /* Adjust position as needed */
     font-size: 20px; /* Smaller size compared to the clock digits */
     font-weight: 500; /* Make it a bit lighter */
-    
+    color: white;
 }
 
 
