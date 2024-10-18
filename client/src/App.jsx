@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import './App.css';
 import Button from './button';
+import FlipClock from './clock';
 
 const endpoint = '/'; // Use the full URL here
 
@@ -78,9 +79,10 @@ function App() {
             fontSize: '2em',
           }}
         ></i>
-        <p style={{marginLeft:'20px'}}>Connected Clients: {connectedClients}</p> {/* Display the number of connected clients */}
+        <p style={{ marginLeft: '20px' }}>Connected Clients: {connectedClients}</p> {/* Display the number of connected clients */}
       </div>
       <Button isOn={isOn} setIsOn={setIsOn} handleSwitchChange={handleSwitchChange} />
+      <FlipClock />
     </div>
   );
 }
